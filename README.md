@@ -25,6 +25,8 @@ With the clock at 8MHz, each timer count should last 125ps. However, use of the 
 | stop logic 1   | 0.039301     | 2.24611E-05   | 39301    | 22.46108  |
 
 ***Using 5 standard deviations, I calcuated a range for each duration***
+
+
 |  Type          | Duration Max (ms) | Duration Min (ms) | Timer A Counts (Max) | Timer A Counts |
 |----------------|:-----------------:|-------------------|----------------------|----------------|
 | start logic 0  | 9.015176981       | 8.775489685       | 9015.177             | 8775.49        |
