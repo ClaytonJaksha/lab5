@@ -25,3 +25,4 @@ With the clock at 8MHz, each timer count should last 125ps. However, use of the 
 | ~~Volt -~~ Stop     | 0011110011000010110101010010101 |
 | ~~Ch +~~ search>> | 0011110011000010110000010011111 |
 | ~~Ch -~~ <<search | 0011110011000011010000001011111 |
+| * *note my remote control (DFEC #6) does not have the buttons with strikethrough* |
