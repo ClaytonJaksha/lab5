@@ -1,5 +1,15 @@
 Lab 5
 ====
+#### Clayton Jaksha | ECE 382 | Dr. York | M2A
+
+## Objective and Purpose
+### Objective
+
+
+
+### Purpose
+
+
 
 ## Pre-Lab
 
@@ -50,3 +60,52 @@ With the clock at 8MHz, each timer count should last 125ps. However, use of the 
 | ~~Ch +~~ search>> | 0x1E61609F |
 | ~~Ch -~~ <<search | 0x1E61A05F |
 | * *note my remote control (DFEC #6) does not have the buttons with strikethrough* |
+
+## Preliminary Design
+
+#### Etch-A-Sketch
+
+
+
+#### Pong
+
+
+
+## Code Walkthrough
+
+
+
+
+## Debugging
+
+Debugging was primarily done by looking at the Nokia 1202 display and the stored register and expression values within CCS-6.0's debugging feature.
+
+## Testing Methodology/Results
+
+#### Testing Methodology
+
+#### Results
+The code works!
+##### Basic Functionality
+
+##### A Functionality
+
+
+## Observations and Conclusion
+#### Observations
+
+* Reusing previous .c and .h files can make coding faster and modular.
+* Writing fine values onto a screen is difficult.
+* Structures and fun and easy to use. They enable a group of information to be stored in an organized manner.
+
+#### Conclusion
+
+The etch-a-sketch and pong funcitons worked according to specs. Army is fully prepared to beat Air Force next week.
+
+## Documentation
+
+None
+
+
+# [ON BRAVE OL' ARMY TEAM!](http://www.youtube.com/watch?v=-HNz02SNTLY)
+![alt text](http://usarmy.vo.llnwd.net/e2/c/images/2011/11/07/226002/size0.jpg "GO ARMY, BEAT AIR FORCE")
