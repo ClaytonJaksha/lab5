@@ -1,16 +1,9 @@
-/*
- * start5.h
- *
- *  Created on: Nov 5, 2014
- *      Author: c16clayton.jaksha
- */
-
 #ifndef START5_H_
 #define START5_H_
 
 //-----------------------------------------------------------------
-// Name:	Coulston
-// File:	lab5.h
+// Name:  Jaksha, Clayton, B.
+// File:	start5.h
 // Date:	Fall 2014
 // Purp:	Include file for the MSP430
 //-----------------------------------------------------------------
