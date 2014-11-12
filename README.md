@@ -65,7 +65,7 @@ With the clock at 8MHz, each timer count should last 125ps. However, use of the 
 
 #### Basic Functionality
 
-
+The idea behind basic functionality is to have an LED toggle with a remote control that utilizes an interrupt service routine. In order to make this work, I will need to interrupt on each IR edge from the remote control, time the length of the `1` from the remote control to determine if it is sending a `0` or `1`, then interrupt when I have received an adequate number of `0`s and `1`s.
 
 #### Remote-Control Etch-A-Sketch
 
