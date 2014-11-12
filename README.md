@@ -141,6 +141,7 @@ while(1) {
 } // end infinite loop
 } // end main
 ```
+`initMSP430` does a lot of key initialization functions. It first clears the interrupt flag, stops the watchdog timer, and decides on clocks to use. For this part of the lab, it also sets up the LEDs as outputs. Our timer is also enabled here too.
 ```
 void initMSP430() {
 IFG1=0; // clear interrupt flag1
@@ -162,6 +163,7 @@ TACTL = ID_3 | TASSEL_2 | MC_1; // Use 1:1 presclar off MCLK and enable interrup
 _enable_interrupt();
 }
 ```
+Here we define our ISR. It is meant to trigger of P2.6, so we use `PORT2_VECTOR`. Basically, what the interrupt does is interrupt each time P2.6 (which is connected to the IR sensor) edge triggers, counts how long it stays at `1`, decides whether it's a `0` or `1`, then stores that value into `packetData`. Once we've triggered 34 times (which is enough to get a unique message from the remote), we flag and our main loop takes care of the rest.
 ```
 #pragma vector = PORT2_VECTOR // This is from the MSP430G2553.h file
 __interrupt void pinChange (void) {
@@ -195,11 +197,6 @@ if (packetIndex>33)
 packet_flag=1;
 }
 } // end pinChange ISR
-#pragma vector = TIMER0_A1_VECTOR // This is from the MSP430G2553.h file
-__interrupt void timerOverflow (void) {
-TACTL &= ~TAIFG;
-}
-
 ```
 
 ## Debugging
