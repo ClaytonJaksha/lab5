@@ -1,7 +1,7 @@
 Lab 5
 ====
 #### Clayton Jaksha | ECE 382 | Dr. York | M2A
-
+***Note: I use remote control DFEC #6 throughout the course of this lab***
 ## Objective and Purpose
 ### Objective
 
@@ -79,6 +79,8 @@ I will also need to include the `nokia.asm` code from lab 4 and any display init
 ##### Hardware Schematic
 ![alt text](http://i.imgur.com/qFUdH2t.png "dat hardware")
 ## Code Walkthrough
+### Basic Functionality
+###### Taken from main_basic.c
 This first portion of the includes the MSP 430 library and the header file for some important functions I will go on to describe. It also initializes and declares the global variables `packetData`, `packetIndex`, and `packet_flag`. `packetData` is the array that holds `0`s and `1`s, `packetIndex` is the pointer for locations within that array, and `packet_flag` lets the program know when we've interupted enough times to have a whole packet to read.
 ```
 #include <msp430g2553.h>
@@ -199,7 +201,8 @@ packet_flag=1;
 }
 } // end pinChange ISR
 ```
-
+### A Functionality
+###### Taken from main.c
 ## Debugging
 
 Debugging was primarily done by looking at the Nokia 1202 display and the stored register and expression values within CCS-6.0's debugging feature.
