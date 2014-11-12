@@ -1,7 +1,7 @@
 Lab 5
 ====
 #### Clayton Jaksha | ECE 382 | Dr. York | M2A
-***Note: I use remote control DFEC #6 throughout the course of this lab***
+***Note:** I use remote control DFEC #6 throughout the course of this lab*
 ## Objective and Purpose
 ### Objective
 
@@ -80,7 +80,7 @@ I will also need to include the `nokia.asm` code from lab 4 and any display init
 ![alt text](http://i.imgur.com/qFUdH2t.png "dat hardware")
 ## Code Walkthrough
 ### Basic Functionality
-###### Taken from main_basic.c
+###### Taken from `main_basic.c`
 This first portion of the includes the MSP 430 library and the header file for some important functions I will go on to describe. It also initializes and declares the global variables `packetData`, `packetIndex`, and `packet_flag`. `packetData` is the array that holds `0`s and `1`s, `packetIndex` is the pointer for locations within that array, and `packet_flag` lets the program know when we've interupted enough times to have a whole packet to read.
 ```
 #include <msp430g2553.h>
@@ -202,7 +202,106 @@ packet_flag=1;
 } // end pinChange ISR
 ```
 ### A Functionality
-###### Taken from main.c
+###### Taken from `main.c`
+#include <msp430g2553.h>
+#include "start5.h"
+extern void init();
+extern void initNokia();
+extern void clearDisplay();
+extern void drawBlock(unsigned char row, unsigned char col);
+extern void drawBlankBlock(unsigned char row, unsigned char col);
+int32 packetData[48];
+int8 packetIndex = 0;
+unsigned char packet_index=FALSE;
+```
+```
+void main(void) {
+initMSP430(); // Setup MSP to process IR and buttons
+init();
+initNokia();
+unsigned char	x, y, button_press;
+unsigned char color=1;
+int32 bitstring=0x00000000;
+int32 i;
+int8 packetIndex2=0;
+button_press = FALSE;
+clearDisplay();
+x=4; y=4;
+drawBlock(y,x);
+_enable_interrupt();
+```
+```
+while(1) {
+  if (get_some) {
+    _disable_interrupt();
+    packetIndex2=0;
+    while ((packetData[packetIndex2]!=2)&&(packetIndex2<50))
+    {
+    packetIndex2++;
+    }
+    packetIndex2++;
+    while (packetIndex2<33)
+    {
+    bitstring+=packetData[packetIndex2];
+    bitstring<<=1;
+    packetIndex2++;
+    }
+    ```
+    ```
+    if (bitstring==BUTTON_FIVE)
+    {
+    color ^= 1;
+    P1OUT |= BIT0; // toggle LEDs
+    } else if (bitstring==BUTTON_TWO)
+    {
+    if (y>=1) y=y-1;
+    button_press = TRUE;
+    P1OUT &= ~BIT0;
+    } else if (bitstring==BUTTON_FOUR)
+    {
+    if (x>=1) x=x-1;
+    button_press = TRUE;
+    P1OUT ^= BIT0;
+    } else if (bitstring==BUTTON_SIX)
+    {
+    if (x<=10) x=x+1;
+    button_press = TRUE;
+    P1OUT ^= BIT6;
+    } else if (bitstring==BUTTON_EIGHT)
+    {
+    if (y<=6) y=y+1;
+    button_press = TRUE;
+    P1OUT &= ~(BIT0|BIT6);
+    }
+    ```
+    ```
+    init();
+    initNokia();
+    if (button_press) {
+    button_press = FALSE;
+    if (color==1)
+    {
+    drawBlock(y,x);
+    } else
+    {
+    drawBlankBlock(y,x);
+    }
+    }
+    for (i=0;i<0xFFFFF;i++);
+    initMSP430();
+    bitstring=0x00000000;
+    packetIndex=0;
+    _enable_interrupt();
+    packet_index=0;
+  } else
+  {
+  bitstring=0x00000000;
+  }
+} // end infinite loop
+} // end main
+```
+ISRs and timers remained exactly the same from basic functionality, so I will not re-explain them.
+
 ## Debugging
 
 Debugging was primarily done by looking at the Nokia 1202 display and the stored register and expression values within CCS-6.0's debugging feature.
