@@ -76,7 +76,8 @@ During this process, it would be smart to disable maskable interrutps since any 
 With etch-a-sketch functionality, I simply aim to operate my etch-a-sketch made in lab 4 with a remote control. The process will be a schmorgeshboard of basic functionality for this lab and my etch-a-sketch code from lab 4. Basically, I will reintroduce the variables I used from the lab 4 code and then implement the `if` statements from lab 4 within my basic functionality code.
 
 I will also need to include the `nokia.asm` code from lab 4 and any display initalization.
-
+##### Hardware Schematic
+![alt text](http://imgur.com/qFUdH2t "dat hardware")
 ## Code Walkthrough
 This first portion of the includes the MSP 430 library and the header file for some important functions I will go on to describe. It also initializes and declares the global variables `packetData`, `packetIndex`, and `packet_flag`. `packetData` is the array that holds `0`s and `1`s, `packetIndex` is the pointer for locations within that array, and `packet_flag` lets the program know when we've interupted enough times to have a whole packet to read.
 ```
