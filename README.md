@@ -203,6 +203,7 @@ packet_flag=1;
 ```
 ### A Functionality
 ###### Taken from `main.c`
+```
 #include <msp430g2553.h>
 #include "start5.h"
 extern void init();
