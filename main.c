@@ -15,7 +15,7 @@ extern void drawBlankBlock(unsigned char row, unsigned char col);
 
 int32	packetData[48];
 int8	packetIndex = 0;
-unsigned char get_some=FALSE;
+unsigned char packet_index=FALSE;
 
 // -----------------------------------------------------------------------
 // -----------------------------------------------------------------------
@@ -94,7 +94,7 @@ void main(void) {
 			bitstring=0x00000000;
 			packetIndex=0;
 			_enable_interrupt();
-			get_some=0;
+			packet_index=0;
 		} else
 		{
 			bitstring=0x00000000;
@@ -200,7 +200,7 @@ __interrupt void pinChange (void) {
 	} // end switch
 	if (packetIndex>33)
 	{
-		get_some=1;
+		packet_index=1;
 	}
 } // end pinChange ISR
 
