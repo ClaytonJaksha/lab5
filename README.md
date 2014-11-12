@@ -170,35 +170,35 @@ Here we define our ISR. It is meant to trigger of P2.6, so we use `PORT2_VECTOR`
 ```
 #pragma vector = PORT2_VECTOR // This is from the MSP430G2553.h file
 __interrupt void pinChange (void) {
-int8 pin;
-int16 pulseDuration;
-P2IFG &= ~BIT6;
-if (IR_PIN) pin=1; else pin=0;
-switch (pin) { // read the current pin level
-case 0: // !!!!!!!!!NEGATIVE EDGE!!!!!!!!!!
-pulseDuration = TAR;
-if ((pulseDuration>minStartPulse)&&(pulseDuration<maxStartPulse))
-{
-pulseDuration=2;
-} else if ((pulseDuration>minLogic0Pulse)&&(pulseDuration<maxLogic0Pulse))
-{
-pulseDuration=0;
-} else if ((pulseDuration>minLogic1Pulse)&&(pulseDuration<maxLogic1Pulse))
-{
-pulseDuration=1;
-}
-packetData[packetIndex++] = pulseDuration;
-LOW_2_HIGH; // Setup pin interrupr on positive edge
-break;
-case 1: // !!!!!!!!POSITIVE EDGE!!!!!!!!!!!
-TAR = 0x0000; // time measurements are based at time 0
-HIGH_2_LOW; // Setup pin interrupr on positive edge
-break;
-} // end switch
-if (packetIndex>33)
-{
-packet_flag=1;
-}
+  int8 pin;
+  int16 pulseDuration;
+  P2IFG &= ~BIT6;
+  if (IR_PIN) pin=1; else pin=0;
+    switch (pin) { // read the current pin level
+    case 0: // !!!!!!!!!NEGATIVE EDGE!!!!!!!!!!
+    pulseDuration = TAR;
+    if ((pulseDuration>minStartPulse)&&(pulseDuration<maxStartPulse))
+    {
+      pulseDuration=2;
+    } else if ((pulseDuration>minLogic0Pulse)&&(pulseDuration<maxLogic0Pulse))
+    {
+      pulseDuration=0;
+    } else if ((pulseDuration>minLogic1Pulse)&&(pulseDuration<maxLogic1Pulse))
+    {
+      pulseDuration=1;
+    }
+  packetData[packetIndex++] = pulseDuration;
+  LOW_2_HIGH; // Setup pin interrupr on positive edge
+  break;
+  case 1: // !!!!!!!!POSITIVE EDGE!!!!!!!!!!!
+  TAR = 0x0000; // time measurements are based at time 0
+  HIGH_2_LOW; // Setup pin interrupr on positive edge
+  break;
+  } // end switch
+  if (packetIndex>33)
+  {
+    packet_flag=1;
+  }
 } // end pinChange ISR
 ```
 ### A Functionality
@@ -315,13 +315,15 @@ Debugging was primarily done by looking at the Nokia 1202 display and the stored
 ## Testing Methodology/Results
 
 #### Testing Methodology
-
+To test the funcionality of my program, I attached the hardware IAW the diagram in my deisgn section, loaded the program, ran the program, and pressed buttons on my remote. If it did what I wanted, then it passed the test.
 #### Results
 The code works!
 ##### Basic Functionality
-
+By pressing the "4" button on my remote, the red LED would toggle. Then, by pressing the "6" button, the green LED would toggle. Fairly straightforward to test and everything worked as expected.
 ##### A Functionality
+For this one, I made the etch-a-sketch function through my remote control. In my implementation, I made the "2" button move the cursor up, the "4" button move left, the "6" button move right, the "8" button move down, and the "5" button toggle color. The solution mostly worked. The basic idea of moving a block and then erasing blocks works fine, but the command `initNokia()` leaves a couple of weird ghost bits drawn on the screen with every button press.
 
+However, I would say that the goal of the lab has been accomplished.
 
 ## Observations and Conclusion
 #### Observations
