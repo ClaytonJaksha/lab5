@@ -93,6 +93,11 @@ initMSP430(); // Setup MSP to process IR and buttons
 int32 bitstring=0x00000000;
 int32 i;
 int8 packetIndex2=0;
+```
+This infinite loop constantly checks for `packet_flag`. When that is `1`, that means that the counter has interrupted 34 times and `packetData` has enough bits in its array to make a unique message to work from. The first thing we do is disable interrupts so we're not interrutped during this process. Then we reset `packetIndex2`, search for the start bit (marked by the number `2`), then bitshift each bit of the array into `bitstring`.
+
+After populating `bitstring`, I compare it with my definitions for what certain buttons are supposed to be, and then perform actions on an LED (or multiple LEDs) depending on the button press. AFter that, I delay a little bit in case there are any ghost signals still coming from the remote, reset the variables I used in this if statement, and enable interrupts again to start the process all over.
+```
 while(1) {
   if (packet_flag) {
     _disable_interrupt();
