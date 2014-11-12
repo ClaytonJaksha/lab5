@@ -310,7 +310,7 @@ ISRs and timers remained exactly the same from basic functionality, so I will no
 
 ## Debugging
 
-Debugging was primarily done by looking at the Nokia 1202 display and the stored register and expression values within CCS-6.0's debugging feature.
+Debugging was primarily done by looking at the Nokia 1202 display and the stored register and expression values within CCS-6.0's debugging feature. Also, for A functionality, I left my LED stuff from basic functionality too to make sure everything up until the if statements were working.
 
 ## Testing Methodology/Results
 
@@ -327,12 +327,12 @@ The code works!
 #### Observations
 
 * Reusing previous .c and .h files can make coding faster and modular.
-* Writing fine values onto a screen is difficult.
+* ISRs and Nokia displays may not work together easily. Be careful for future projects.
 * Structures and fun and easy to use. They enable a group of information to be stored in an organized manner.
 
 #### Conclusion
 
-The etch-a-sketch and pong funcitons worked according to specs. Army is fully prepared to beat Air Force next week.
+The etch-a-sketch worked according to specs (wel, mostly). The Army team is fully prepared to beat everyone ever.
 
 ## Documentation
 
