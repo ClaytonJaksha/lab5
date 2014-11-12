@@ -5,11 +5,11 @@ Lab 5
 ## Objective and Purpose
 ### Objective
 
-
+The objective of this lab is to use timers and interrupts to reverse engineer a remote control.
 
 ### Purpose
 
-
+To practically use timers and interrupts in an actual system and gain a better understanding of IR transmitters.
 
 ## Pre-Lab
 
@@ -63,11 +63,11 @@ With the clock at 8MHz, each timer count should last 125ps. However, use of the 
 
 ## Preliminary Design
 
-#### Etch-A-Sketch
+#### Basic Functionality
 
 
 
-#### Pong
+#### Remote-Control Etch-A-Sketch
 
 
 
