@@ -86,6 +86,7 @@ int32 packetData[48];
 int8 packetIndex = 0;
 unsigned char packet_flag=FALSE;
 ```
+This is the main loop. We first call the `initMSP430()` function (which I will describe in greater detail later). Then we declare and initialize `bitstring`, a counter `i`, and `packetIndex2`. `bitstring` is the register that holds our string of 32 bits after our array is full. `packetIndex2` does the same thing as `packetIndex`, only it is separate because the two need to operate independently of each other sometimes.
 ```
 void main(void) {
 initMSP430(); // Setup MSP to process IR and buttons
@@ -93,45 +94,45 @@ int32 bitstring=0x00000000;
 int32 i;
 int8 packetIndex2=0;
 while(1) {
-if (get_some) {
-_disable_interrupt();
-packetIndex2=0;
-while (packetData[packetIndex2]!=2)
-{
-packetIndex2++;
-}
-packetIndex2++;
-while (packetIndex2<33)
-{
-bitstring+=packetData[packetIndex2];
-bitstring<<=1;
-packetIndex2++;
-}
-if (bitstring==BUTTON_FIVE)
-{
-P1OUT |= BIT0; // toggle LEDs
-} else if (bitstring==BUTTON_TWO)
-{
-P1OUT &= ~BIT0;
-} else if (bitstring==BUTTON_FOUR)
-{
-P1OUT ^= BIT0;
-} else if (bitstring==BUTTON_SIX)
-{
-P1OUT ^= BIT6;
-} else if (bitstring==BUTTON_EIGHT)
-{
-P1OUT &= ~(BIT0|BIT6);
-}
-for (i=0;i<0xFFFFF;i++);
-bitstring=0x00000000;
-packetIndex=0;
-_enable_interrupt();
-packet_flag=0;
-} else
-{
-bitstring=0x00000000;
-}
+  if (packet_flag) {
+    _disable_interrupt();
+    packetIndex2=0;
+    while (packetData[packetIndex2]!=2)
+    {
+    packetIndex2++;
+    }
+    packetIndex2++;
+    while (packetIndex2<33)
+    {
+    bitstring+=packetData[packetIndex2];
+    bitstring<<=1;
+    packetIndex2++;
+    }
+    if (bitstring==BUTTON_FIVE)
+    {
+    P1OUT |= BIT0; // toggle LEDs
+    } else if (bitstring==BUTTON_TWO)
+    {
+    P1OUT &= ~BIT0;
+    } else if (bitstring==BUTTON_FOUR)
+    {
+    P1OUT ^= BIT0;
+    } else if (bitstring==BUTTON_SIX)
+    {
+    P1OUT ^= BIT6;
+    } else if (bitstring==BUTTON_EIGHT)
+    {
+    P1OUT &= ~(BIT0|BIT6);
+    }
+    for (i=0;i<0xFFFFF;i++);
+    bitstring=0x00000000;
+    packetIndex=0;
+    _enable_interrupt();
+    packet_flag=0;
+  } else
+  {
+  bitstring=0x00000000;
+  }
 } // end infinite loop
 } // end main
 ```
