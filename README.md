@@ -155,6 +155,7 @@ TACTL = ID_3 | TASSEL_2 | MC_1; // Use 1:1 presclar off MCLK and enable interrup
 _enable_interrupt();
 }
 ```
+```
 #pragma vector = PORT2_VECTOR // This is from the MSP430G2553.h file
 __interrupt void pinChange (void) {
 int8 pin;
