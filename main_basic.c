@@ -22,10 +22,10 @@ void main(void) {
 	int8	packetIndex2=0;
 
 	while(1)  {
-		if (get_some) {
+		if (packet_flag) {
 			_disable_interrupt();
 			packetIndex2=0;
-			while (packetData[packetIndex2]!=2)
+			while (packetData[packetIndex2]!=2)	//cycle through to find start bit
 			{
 				packetIndex2++;
 			}
@@ -52,7 +52,7 @@ void main(void) {
 			{
 				P1OUT &= ~(BIT0|BIT6);
 			}
-			for (i=0;i<0xFFFFF;i++);
+			for (i=0;i<0xFFFFF;i++);			//put a little delay in there to make sure we don't interrupt on some ghost bits
 			bitstring=0x00000000;
 			packetIndex=0;
 			_enable_interrupt();
