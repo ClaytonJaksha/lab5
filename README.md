@@ -334,7 +334,7 @@ However, I would say that the goal of the lab has been accomplished.
 
 #### Conclusion
 
-The etch-a-sketch worked according to specs (wel, mostly). The Army team is fully prepared to beat everyone ever.
+The etch-a-sketch worked according to specs (well, mostly). The Army team is fully prepared to beat everyone ever.
 
 ## Documentation
 
