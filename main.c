@@ -32,7 +32,7 @@ void main(void) {
 	int8	packetIndex2=0;
 	button_press = FALSE;
 
-	clearDisplay();
+	clearDisplay();				//get the display all fired up and enable interrupts
 	x=4; y=4;
 	drawBlock(y,x);
 	_enable_interrupt();
@@ -41,12 +41,12 @@ void main(void) {
 		if (packet_flag) {
 			_disable_interrupt();
 			packetIndex2=0;
-			while ((packetData[packetIndex2]!=2)&&(packetIndex2<50))
+			while ((packetData[packetIndex2]!=2)&&(packetIndex2<50))	//this looks for the start bit
 			{
 				packetIndex2++;
 			}
 			packetIndex2++;
-			while (packetIndex2<33)
+			while (packetIndex2<33)					//after finding the start bit, we begin shuffling the array into one register
 			{
 				bitstring+=packetData[packetIndex2];
 				bitstring<<=1;
@@ -78,8 +78,8 @@ void main(void) {
 				P1OUT &= ~(BIT0|BIT6);
 			}
 			init();
-			initNokia();
-			if (button_press) {
+			initNokia();						//for some reason `initNokia()` is causing some weird writing issues. Fix undetermined as of yet.
+			if (button_press) {					//this is the part of the code that actually writes the bit onto the screen
 				button_press = FALSE;
 				if (color==1)
 				{
@@ -89,7 +89,7 @@ void main(void) {
 					drawBlankBlock(y,x);
 				}
 			}
-			for (i=0;i<0xFFFFF;i++);
+			for (i=0;i<0xFFFFF;i++);				//a little delay in case of ghost bits
 			initMSP430();
 			bitstring=0x00000000;
 			packetIndex=0;
