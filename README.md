@@ -78,6 +78,7 @@ With etch-a-sketch functionality, I simply aim to operate my etch-a-sketch made 
 I will also need to include the `nokia.asm` code from lab 4 and any display initalization.
 
 ## Code Walkthrough
+This first portion of the includes the MSP 430 library and the header file for some important functions I will go on to describe. It also initializes and declares the global variables `packetData`, `packetIndex`, and `packet_flag`. `packetData` is the array that holds `0`s and `1`s, `packetIndex` is the pointer for locations within that array, and `packet_flag` lets the program know when we've interupted enough times to have a whole packet to read.
 ```
 #include <msp430g2553.h>
 #include "start5.h"
