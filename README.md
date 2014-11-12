@@ -214,7 +214,7 @@ extern void drawBlock(unsigned char row, unsigned char col);
 extern void drawBlankBlock(unsigned char row, unsigned char col);
 int32 packetData[48];
 int8 packetIndex = 0;
-unsigned char packet_index=FALSE;
+unsigned char packet_flag=FALSE;
 ```
 The only part of the rest of the code that changed for A functionality was part of the main loop, so I will go into more detail describing what goes in within there. We first initialize the nokia display, clear it, and get ready to get started on the rest of our loop.
 ```
@@ -298,7 +298,7 @@ After moving `x` or `y`, we reinitialize the screen. The reason we do this is un
     bitstring=0x00000000;
     packetIndex=0;
     _enable_interrupt();
-    packet_index=0;
+    packet_flag=0;
   } else
   {
   bitstring=0x00000000;
