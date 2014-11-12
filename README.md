@@ -1,7 +1,7 @@
 Lab 5
 ====
 #### Clayton Jaksha | ECE 382 | Dr. York | M2A
-***Note:** I use remote control DFEC #6 throughout the course of this lab*
+***Note: I use remote control DFEC #6 throughout the course of this lab***
 ## Objective and Purpose
 ### Objective
 
@@ -203,6 +203,7 @@ packet_flag=1;
 ```
 ### A Functionality
 ###### Taken from `main.c`
+Like in basic functionality, this portion calls our library and header file, then it goes into declaring the nokia functions. These nokia functions can be found in `nokia.asm`. Everything else is just like what it did in basic functionality.
 ```
 #include <msp430g2553.h>
 #include "start5.h"
@@ -215,6 +216,7 @@ int32 packetData[48];
 int8 packetIndex = 0;
 unsigned char packet_index=FALSE;
 ```
+The only part of the rest of the code that changed for A functionality was part of the main loop, so I will go into more detail describing what goes in within there. We first initialize the nokia display, clear it, and get ready to get started on the rest of our loop.
 ```
 void main(void) {
 initMSP430(); // Setup MSP to process IR and buttons
@@ -231,9 +233,10 @@ x=4; y=4;
 drawBlock(y,x);
 _enable_interrupt();
 ```
+This is the beginning of our infinite loop. Like in the basic functionality, it triggers on `packet_flag`. Then we disable interrupts, find the start bit, and shuffle our array of `1`s and `0`s into one register.
 ```
 while(1) {
-  if (get_some) {
+  if (packet_flag) {
     _disable_interrupt();
     packetIndex2=0;
     while ((packetData[packetIndex2]!=2)&&(packetIndex2<50))
@@ -247,8 +250,9 @@ while(1) {
     bitstring<<=1;
     packetIndex2++;
     }
-    ```
-    ```
+```
+After this, I compare `bitstring` to our predefined values for each button press. If it is a certain button, I will move our `x` or `y` coordinates accordingly, though the block does not get drawn until later. I also left the LED commands in the if statements for debugging purposes.
+```
     if (bitstring==BUTTON_FIVE)
     {
     color ^= 1;
@@ -274,8 +278,9 @@ while(1) {
     button_press = TRUE;
     P1OUT &= ~(BIT0|BIT6);
     }
-    ```
-    ```
+```
+After moving `x` or `y`, we reinitialize the screen. The reason we do this is unknown, however it is likely that something in our ISR interferes with how the MSP 430 interacts with the nokia display. We will draw our block accordingly, then reinitialize our MSP 430 so we can properly interrupt. Then we reset our variables and enable interrupts again.
+```
     init();
     initNokia();
     if (button_press) {
