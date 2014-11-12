@@ -78,9 +78,121 @@ With etch-a-sketch functionality, I simply aim to operate my etch-a-sketch made 
 I will also need to include the `nokia.asm` code from lab 4 and any display initalization.
 
 ## Code Walkthrough
+```
+#include <msp430g2553.h>
+#include "start5.h"
+int32 packetData[48];
+int8 packetIndex = 0;
+unsigned char packet_flag=FALSE;
+```
+```
+void main(void) {
+initMSP430(); // Setup MSP to process IR and buttons
+int32 bitstring=0x00000000;
+int32 i;
+int8 packetIndex2=0;
+while(1) {
+if (get_some) {
+_disable_interrupt();
+packetIndex2=0;
+while (packetData[packetIndex2]!=2)
+{
+packetIndex2++;
+}
+packetIndex2++;
+while (packetIndex2<33)
+{
+bitstring+=packetData[packetIndex2];
+bitstring<<=1;
+packetIndex2++;
+}
+if (bitstring==BUTTON_FIVE)
+{
+P1OUT |= BIT0; // toggle LEDs
+} else if (bitstring==BUTTON_TWO)
+{
+P1OUT &= ~BIT0;
+} else if (bitstring==BUTTON_FOUR)
+{
+P1OUT ^= BIT0;
+} else if (bitstring==BUTTON_SIX)
+{
+P1OUT ^= BIT6;
+} else if (bitstring==BUTTON_EIGHT)
+{
+P1OUT &= ~(BIT0|BIT6);
+}
+for (i=0;i<0xFFFFF;i++);
+bitstring=0x00000000;
+packetIndex=0;
+_enable_interrupt();
+packet_flag=0;
+} else
+{
+bitstring=0x00000000;
+}
+} // end infinite loop
+} // end main
+```
+```
+void initMSP430() {
+IFG1=0; // clear interrupt flag1
+WDTCTL=WDTPW+WDTHOLD; // stop WD
+BCSCTL1 = CALBC1_8MHZ;
+DCOCTL = CALDCO_8MHZ;
+P1DIR |= BIT0|BIT6; // set LEDs to output
+P2SEL &= ~BIT6; // Setup P2.6 as GPIO not XIN
+P2SEL2 &= ~BIT6;
+P2DIR &= ~BIT6;
+P2IFG &= ~BIT6; // Clear any interrupt flag
+P2IE |= BIT6; // Enable PORT 2 interrupt on pin change
+HIGH_2_LOW;
+P1DIR |= BIT0 | BIT6; // Enable updates to the LED
+P1OUT &= ~(BIT0 | BIT6); // An turn the LED off
+TA0CCR0 = 0x8000; // create a 16mS roll-over period
+TACTL &= ~TAIFG; // clear flag before enabling interrupts = good practice
+TACTL = ID_3 | TASSEL_2 | MC_1; // Use 1:1 presclar off MCLK and enable interrupts
+_enable_interrupt();
+}
+```
+#pragma vector = PORT2_VECTOR // This is from the MSP430G2553.h file
+__interrupt void pinChange (void) {
+int8 pin;
+int16 pulseDuration;
+P2IFG &= ~BIT6;
+if (IR_PIN) pin=1; else pin=0;
+switch (pin) { // read the current pin level
+case 0: // !!!!!!!!!NEGATIVE EDGE!!!!!!!!!!
+pulseDuration = TAR;
+if ((pulseDuration>minStartPulse)&&(pulseDuration<maxStartPulse))
+{
+pulseDuration=2;
+} else if ((pulseDuration>minLogic0Pulse)&&(pulseDuration<maxLogic0Pulse))
+{
+pulseDuration=0;
+} else if ((pulseDuration>minLogic1Pulse)&&(pulseDuration<maxLogic1Pulse))
+{
+pulseDuration=1;
+}
+packetData[packetIndex++] = pulseDuration;
+LOW_2_HIGH; // Setup pin interrupr on positive edge
+break;
+case 1: // !!!!!!!!POSITIVE EDGE!!!!!!!!!!!
+TAR = 0x0000; // time measurements are based at time 0
+HIGH_2_LOW; // Setup pin interrupr on positive edge
+break;
+} // end switch
+if (packetIndex>33)
+{
+packet_flag=1;
+}
+} // end pinChange ISR
+#pragma vector = TIMER0_A1_VECTOR // This is from the MSP430G2553.h file
+__interrupt void timerOverflow (void) {
+TACTL &= ~TAIFG;
+}
 
-
-
+```
 
 ## Debugging
 
